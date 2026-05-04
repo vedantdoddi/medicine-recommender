@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI - Intelligent Medicine Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <h1>MedAI System</h1>
+            </div>
+            <p class="subtitle">AI-powered symptom evaluation and medicine recommendation</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Problem Statement / Introduction Section -->
+            <div class="intro-card" style="background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h2 style="font-size: 1.5rem; color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <i class="fa-solid fa-book-medical" style="color: var(--primary);"></i> About the System
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Understand how MedAI Diagnostics works</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(15, 23, 42, 0.4); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h3 style="color: #fff; font-size: 1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-question" style="color: var(--text-muted); margin-right: 0.5rem;"></i>Problem Statement</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Many people struggle to identify basic medicines for common symptoms quickly.</p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.4); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h3 style="color: #fff; font-size: 1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye" style="color: var(--accent-green); margin-right: 0.5rem;"></i>Objective</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Build an AI-assisted system that recommends basic medicines based on natural symptom descriptions.</p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.4); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h3 style="color: #fff; font-size: 1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-microchip" style="color: var(--primary); margin-right: 0.5rem;"></i>Approach</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Uses Natural Language Processing (NLP) and similarity matching to map symptoms to treatments efficiently.</p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.4); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <h3 style="color: #fff; font-size: 1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-hand-holding-heart" style="color: #e11d48; margin-right: 0.5rem;"></i>Human Benefit</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Helps users receive preliminary guidance, especially useful when immediate medical consultation is not available.</p>
+                    </div>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--accent-red); padding: 1rem 1.5rem; border-radius: 8px; text-align: left;">
+                    <h4 style="color: var(--accent-red); font-size: 0.95rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Disclaimer
+                    </h4>
+                    <p style="color: #e2e8f0; font-size: 0.9rem; line-height: 1.4;">
+                        This is <strong>NOT</strong> a medical diagnosis system. It is strictly for educational and preliminary guidance purposes. Always consult a certified doctor before consuming any medication.
+                    </p>
+                </div>
+            </div>
+
+            <div class="input-card">
+                <h2><i class="fa-solid fa-stethoscope"></i> Describe Your Symptoms</h2>
+                <div class="input-group">
+                    <textarea id="symptoms-input" placeholder="E.g., I have a severe headache, slight fever, and body ache..."></textarea>
+                    
+                    <div class="suggestions" id="suggestions-container">
+                        <span class="suggestion-chip">fever</span>
+                        <span class="suggestion-chip">headache</span>
+                        <span class="suggestion-chip">stomach ache</span>
+                        <span class="suggestion-chip">cough</span>
+                        <span class="suggestion-chip">allergy</span>
+                    </div>
+                </div>
+
+                <button id="analyze-btn" class="primary-btn">
+                    <span>Analyze Symptoms</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div id="loading" class="loading-state hidden">
+                <div class="spinner"></div>
+                <p>Processing with NLP Model...</p>
+            </div>
+
+            <div id="result-container" class="result-container hidden">
+                <!-- Data dynamically populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
